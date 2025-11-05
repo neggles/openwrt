@@ -19,8 +19,8 @@
 		serial0 = &uart1;
 		led-boot = &led_status_red;
 		led-failsafe = &led_status_blue;
-		led-upgrade = &led_status_blue;
-		led-running = &led_status_green;
+		led-upgrade = &led_status_green;
+		led-running = &led_status_white;
 	};
 
 	chosen {
@@ -152,13 +152,14 @@
 &spi_nand {
 	#address-cells = <1>;
 	#size-cells = <1>;
+
 	partitions {
 		compatible = "fixed-partitions";
 		#address-cells = <1>;
 		#size-cells = <1>;
 
 		partition@0 {
-			label = "bootloader";
+			label = "u-boot";
 			reg = <0x00000000 0x00200000>;
 			read-only;
 		};
@@ -200,7 +201,7 @@
 				#address-cells = <1>;
 				#size-cells = <1>;
 
-				eeprom_factory_4000: eeprom@4000 {
+				factory_eeprom: eeprom@4000 {
 					reg = <0x4000 0x1e00>;
 				};
 			};
@@ -241,6 +242,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pcie0_rst_pins>;
 	device_type = "pci";
+
 	pcie@0,0 {
 		reg = <0x0000 0 0 0 0>;
 		#address-cells = <3>;
@@ -250,7 +252,7 @@
 			reg = <0x0000 0 0 0 0>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-			nvmem-cells = <&eeprom_factory_4000>;
+			nvmem-cells = <&factory_eeprom>;
 			nvmem-cell-names = "eeprom";
 			airoha,npu = <&npu>;
 			airoha,eth = <&eth>;
